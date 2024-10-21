@@ -9,7 +9,7 @@ class CsvController extends BaseController
 {
     private const DATA_FOLDER = '../app/Data/';
 
-    public function showPoblacionPontevedra()
+    public function showPoblacionPontevedra(): void
     {
         $data = [
             'titulo' => 'Población Pontevedra',
@@ -22,7 +22,7 @@ class CsvController extends BaseController
         $this->view->showViews(array('templates/header.view.php', 'csv.view.php', 'templates/footer.view.php'), $data);
     }
 
-    public function showPoblacionGruposEdad()
+    public function showPoblacionGruposEdad(): void
     {
         $data = [
             'titulo' => 'Población Grupos Edad',
