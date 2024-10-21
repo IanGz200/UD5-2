@@ -73,6 +73,24 @@ class FrontController
         );
 
         Route::add(
+            '/poblacion-pontevedra',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\CsvController();
+                $controlador->showPoblacionPontevedra();
+            },
+            'get'
+        );
+
+        Route::add(
+                    '/poblacion-grupos-edad',
+                    function () {
+                        $controlador = new \Com\Daw2\Controllers\CsvController();
+                        $controlador->showPoblacionGruposEdad();
+                    },
+                    'get'
+                );
+
+        Route::add(
             '/demo-proveedores',
             function () {
                 $controlador = new \Com\Daw2\Controllers\InicioController();
