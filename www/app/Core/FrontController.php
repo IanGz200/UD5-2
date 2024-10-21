@@ -37,6 +37,15 @@ class FrontController
         );
 
         Route::add(
+            '/poblacion-pontevedra-2020',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\CsvController();
+                $controlador->showPoblacionPontevedra2020();
+            },
+            'get'
+        );
+
+        Route::add(
             '/demo-proveedores',
             function () {
                 $controlador = new \Com\Daw2\Controllers\InicioController();

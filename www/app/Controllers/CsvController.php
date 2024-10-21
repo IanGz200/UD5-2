@@ -35,6 +35,19 @@ class CsvController extends BaseController
         $this->view->showViews(array('templates/header.view.php', 'csv.view.php', 'templates/footer.view.php'), $data);
     }
 
+    public function showPoblacionPontevedra2020(): void
+    {
+        $data = [
+            'titulo' => 'Población Pontevedra 2020',
+            'breadcrumb' => ['Csv', 'Población Pontevedra 2020'],
+            'seccion' => '/poblacion-pontevedra-2020'
+        ];
+        $model = new CsvModel(self::DATA_FOLDER . 'poblacion_pontevedra_2020_totales.csv');
+        $data['registros'] = $model->loadData();
+
+        $this->view->showViews(array('templates/header.view.php', 'csv.view.php', 'templates/footer.view.php'), $data);
+    }
+
 
 
 
