@@ -19,60 +19,6 @@ class FrontController
         );
 
         Route::add(
-            '/test',
-            function () {
-                $controlador = new EjerciciosController();
-                $controlador->showFormularioNombre();
-            },
-            'get'
-        );
-
-        Route::add(
-            '/test',
-            function () {
-                $controlador = new EjerciciosController();
-                $controlador->doFormularioNombre();
-            },
-            'post'
-        );
-
-        Route::add(
-            '/anagrama',
-            function () {
-                $controlador = new EjerciciosController();
-                $controlador->showAnagrama();
-            },
-            'get'
-        );
-
-        Route::add(
-            '/anagrama',
-            function () {
-                $controlador = new EjerciciosController();
-                $controlador->doAnagrama();
-            },
-            'post'
-        );
-
-        Route::add(
-            '/mismas-letras',
-            function () {
-                $controlador = new EjerciciosController();
-                $controlador->showMismasLetras();
-            },
-            'get'
-        );
-
-        Route::add(
-            '/mismas-letras',
-            function () {
-                $controlador = new EjerciciosController();
-                $controlador->doMismasLetras();
-            },
-            'post'
-        );
-
-        Route::add(
             '/poblacion-pontevedra',
             function () {
                 $controlador = new \Com\Daw2\Controllers\CsvController();
@@ -82,13 +28,13 @@ class FrontController
         );
 
         Route::add(
-                    '/poblacion-grupos-edad',
-                    function () {
-                        $controlador = new \Com\Daw2\Controllers\CsvController();
-                        $controlador->showPoblacionGruposEdad();
-                    },
-                    'get'
-                );
+            '/poblacion-grupos-edad',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\CsvController();
+                $controlador->showPoblacionGruposEdad();
+            },
+            'get'
+        );
 
         Route::add(
             '/demo-proveedores',
