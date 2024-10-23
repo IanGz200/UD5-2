@@ -1,6 +1,9 @@
 <!--Inicio HTML -->
 <div class="row">
     <div class="col-12">
+        <?php
+        if (count($registros) > 1) {
+        ?>
         <div class="card shadow mb-4">
             <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -46,9 +49,55 @@
                     }
                     ?>
                     </tbody>
+                    <?php
+                    if(isset($min) && isset($max)){
+                    ?>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <?php echo $max[0]; ?>
+                            </td>
+                            <td>
+                                <?php echo $max[1]; ?>
+                            </td>
+                            <td>
+                                <?php echo $showMinMax ? 'MAX' : ''; ?>
+                            </td>
+                            <td>
+                                <?php echo number_format(num: $max[3], thousands_separator: '.'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php echo $min[0]; ?>
+                            </td>
+                            <td>
+                                <?php echo $min[1]; ?>
+                            </td>
+                            <td>
+                                <?php echo $showMinMax ? 'MIN' : ''; ?>
+                            </td>
+                            <td>
+                                <?php echo number_format(num: $min[3], thousands_separator: '.'); ?>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    <?php
+                    }
+                    ?>
                 </table>
             </div>
         </div>
+        <?php
+        }
+        else{
+            ?>
+            <div class="alert alert-warning" role="alert">
+                No hay registros en el fichero seleccionado
+            </div>
+        <?php
+        }
+        ?>
     </div>
 </div>
 <!--Fin HTML -->
