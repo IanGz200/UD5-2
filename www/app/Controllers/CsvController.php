@@ -13,8 +13,7 @@ class CsvController extends BaseController
     {
         $data = [
             'titulo' => 'Población Pontevedra',
-            'breadcrumb' => ['Csv', 'Población Pontevedra'],
-            'seccion' => '/poblacion-pontevedra'
+            'breadcrumb' => ['Csv', 'Población Pontevedra']
         ];
         $model = new CsvModel(self::DATA_FOLDER . 'poblacion_pontevedra.csv');
         $data['registros'] = $model->loadData();
@@ -26,8 +25,7 @@ class CsvController extends BaseController
     {
         $data = [
             'titulo' => 'Población Grupos Edad',
-            'breadcrumb' => ['Csv', 'Población Grupos Edad'],
-            'seccion' => '/poblacion-grupos-edad'
+            'breadcrumb' => ['Csv', 'Población Grupos Edad']
         ];
         $model = new CsvModel(self::DATA_FOLDER . 'poblacion_grupos_edad.csv');
         $data['registros'] = $model->loadData();
@@ -40,7 +38,6 @@ class CsvController extends BaseController
         $data = [
             'titulo' => 'Población Pontevedra 2020',
             'breadcrumb' => ['Csv', 'Población Pontevedra 2020'],
-            'seccion' => '/poblacion-pontevedra-2020'
         ];
         $model = new CsvModel(self::DATA_FOLDER . 'poblacion_pontevedra_2020_totales.csv');
         $data['registros'] = $model->loadData();
