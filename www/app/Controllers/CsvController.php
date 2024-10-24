@@ -10,6 +10,7 @@ use Com\Daw2\Models\CsvModel;
 class CsvController extends BaseController
 {
     private const DATA_FOLDER = '../app/Data/';
+    private const SEXOS = ['Total', 'Mujeres', 'Hombre'];
 
     public function showPoblacionPontevedra(): void
     {
@@ -91,5 +92,15 @@ class CsvController extends BaseController
         $data['showMinMax'] = false;
 
         $this->view->showViews(array('templates/header.view.php', 'csv.view.php', 'templates/footer.view.php'), $data);
+    }
+
+    public function showAltaPoblacionPontevedra(): void
+    {
+        $data = [
+            'titulo' => 'Insertar registro en población Pontevedra',
+            'breadcrumb' => ['Csv', 'Población Pontevedra', 'Nuevo registro'],
+            'sexos' => self::SEXOS
+        ];
+        $this->view->showViews(array('templates/header.view.php', 'new-pontevedra.view.php', 'templates/footer.view.php'), $data);
     }
 }

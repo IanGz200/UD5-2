@@ -3,7 +3,7 @@
     <div class="col-12">
         <?php
         if (count($registros) > 1) {
-        ?>
+            ?>
         <div class="card shadow mb-4">
             <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -15,9 +15,9 @@
                 <table id="tabladatos" class="table table-striped">
                     <?php
                     $primerRegistro = true;
-                    foreach ($registros as $row){
-                        if ($primerRegistro){
-                        ?>
+                    foreach ($registros as $row) {
+                        if ($primerRegistro) {
+                            ?>
                         <thead>
                         <tr>
                             <?php
@@ -31,9 +31,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        }
-                        else {
+                            <?php
+                        } else {
                             ?>
                             <tr>
                                 <?php
@@ -50,8 +49,8 @@
                     ?>
                     </tbody>
                     <?php
-                    if(isset($min) && isset($max)){
-                    ?>
+                    if (isset($min) && isset($max)) {
+                        ?>
                     <tfoot>
                         <tr>
                             <td>
@@ -82,20 +81,19 @@
                             </td>
                         </tr>
                     </tfoot>
-                    <?php
+                        <?php
                     }
                     ?>
                 </table>
             </div>
         </div>
-        <?php
-        }
-        else{
+            <?php
+        } else {
             ?>
             <div class="alert alert-warning" role="alert">
                 No hay registros en el fichero seleccionado
             </div>
-        <?php
+            <?php
         }
         ?>
     </div>
