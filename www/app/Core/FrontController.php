@@ -35,6 +35,14 @@ class FrontController
             },
             'get'
         );
+        Route::add(
+            '/poblacion-pontevedra/new',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\CsvController();
+                $controlador->doAltaPoblacionPontevedra();
+            },
+            'post'
+        );
 
         Route::add(
             '/poblacion-grupos-edad',

@@ -103,4 +103,52 @@ class CsvController extends BaseController
         ];
         $this->view->showViews(array('templates/header.view.php', 'new-pontevedra.view.php', 'templates/footer.view.php'), $data);
     }
+
+    public function doAltaPoblacionPontevedra(): void
+    {
+        $data = [];
+        $errors = $this->checkErrorsAltaPontevedra($_POST);
+        if (empty($errors)) {
+        } else {
+            $data = [
+                'titulo' => 'Insertar registro en población Pontevedra',
+                'breadcrumb' => ['Csv', 'Población Pontevedra', 'Nuevo registro'],
+                'sexos' => self::SEXOS
+            ];
+            $data['errors'] = $errors;
+            $data['input'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $this->view->showViews(array('templates/header.view.php', 'new-pontevedra.view.php', 'templates/footer.view.php'), $data);
+        }
+    }
+
+    private function checkErrorsAltaPontevedra(array $data): array
+    {
+        $errors = [];
+        if (!preg_match('/^[1-9]([0-9]|[0-9]{4})\s\p{L}[\p{L}\s]*$/iu', $data['municipio'])) {
+            $errors['municipio'] = 'El municipio debe estar formado por el código postal (2 o 5 números) y un nombre formado por letras y espacios';
+        }
+
+        if (!in_array($data['sexo'], self::SEXOS)) {
+            $errors['sexo'] = 'Elija una opción válida';
+        }
+
+        $resto = (int)date('Y') - (int)$data['anho'];
+        if (
+            (!filter_var($data['anho'], FILTER_VALIDATE_INT) ||
+            ($resto < 0) ||
+            ($resto > 100))
+        ) {
+            $errors['anho'] = 'Escoja un año del listado';
+        }
+
+        if (!filter_var($data['poblacion'], FILTER_VALIDATE_INT)) {
+            $errors['poblacion'] = 'La población debe ser un número entero';
+        } else {
+            if ($data['poblacion'] < 0) {
+                $errors['poblacion'] = 'La población debe ser un número mayor o igual a cero';
+            }
+        }
+
+        return $errors;
+    }
 }

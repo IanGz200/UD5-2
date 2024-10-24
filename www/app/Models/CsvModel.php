@@ -20,4 +20,16 @@ class CsvModel
         }
         return $resultado;
     }
+
+    /**
+     * @param array $data
+     * @return bool true si se inserta el registro. False otherwise.
+     */
+    public function insertPoblacionPontevedra(array $data): bool
+    {
+        $resource = fopen($this->filename, 'a');
+        $resultado = fputcsv($resource, $data, ';');
+        fclose($resource);
+        return $resultado !== false;
+    }
 }

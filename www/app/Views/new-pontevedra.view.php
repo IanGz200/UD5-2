@@ -14,7 +14,7 @@
                             <div class="mb-3">
                                 <label for="municipio">Municipio:</label>
                                 <input class="form-control" id="municipio" type="text" name="municipio" placeholder="Municipio" value="<?php echo $input['municipio'] ?? ''; ?>">
-                                <p class="text-danger"><?php echo $errores['municipio'] ?? ''; ?></p>
+                                <p class="text-danger"><?php echo $errors['municipio'] ?? ''; ?></p>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
@@ -25,12 +25,12 @@
                                     <?php
                                     foreach ($sexos as $sexo) {
                                         ?>
-                                        <option value="<?php echo $sexo ?>"><?php echo $sexo ?></option>
+                                        <option value="<?php echo $sexo ?>" <?php echo isset($_POST['sexo']) && $_POST['sexo'] == $sexo ? 'selected' : ''; ?>><?php echo $sexo ?></option>
                                         <?php
                                     }
                                     ?>
                                 </select>
-                                <p class="text-danger"><?php echo $errores['sexo'] ?? ''; ?></p>
+                                <p class="text-danger"><?php echo $errors['sexo'] ?? ''; ?></p>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
@@ -45,21 +45,21 @@
                                     }
                                     ?>
                                 </select>
-                                <p class="text-danger"><?php echo $errores['poblacion'] ?? ''; ?></p>
+                                <p class="text-danger"><?php echo $errors['anho'] ?? ''; ?></p>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="mb-3">
                                 <label for="poblacion">Población:</label>
                                 <input class="form-control" id="poblacion" type="text" name="poblacion" placeholder="Población" value="<?php echo $input['poblacion'] ?? ''; ?>">
-                                <p class="text-danger"><?php echo $errores['poblacion'] ?? ''; ?></p>
+                                <p class="text-danger"><?php echo $errors['poblacion'] ?? ''; ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="col-12 text-right">
-                        <a href="/poblacion-pontevedra" value="" name="cancelar" class="btn btn-danger">Cancelar</a>
+                        <a href="/poblacion-pontevedra" value="" sclass="btn btn-danger">Cancelar</a>
                         <input type="submit" value="Insertar registro" name="enviar" class="btn btn-primary ml-2"/>
                     </div>
                 </div>

@@ -7,7 +7,8 @@
         <div class="card shadow mb-4">
             <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary"><?php echo $titulo; ?></h6>
+                <div class="col-9"><h6 class="m-0 font-weight-bold text-primary"><?php echo $titulo; ?></h6></div>
+                <div class="col-3 text-right"><a href="<?php echo $_SERVER['REQUEST_URI']; ?>/new" value="" class="btn btn-primary">+ Nuevo registro</a></div>
             </div>
             <!-- Card Body -->
             <div class="card-body" id="card_table">
