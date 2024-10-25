@@ -106,19 +106,33 @@ class CsvController extends BaseController
 
     public function doAltaPoblacionPontevedra(): void
     {
-        $data = [];
-        $errors = $this->checkErrorsAltaPontevedra($_POST);
-        if (empty($errors)) {
-        } else {
-            $data = [
-                'titulo' => 'Insertar registro en población Pontevedra',
-                'breadcrumb' => ['Csv', 'Población Pontevedra', 'Nuevo registro'],
-                'sexos' => self::SEXOS
-            ];
-            $data['errors'] = $errors;
-            $data['input'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-            $this->view->showViews(array('templates/header.view.php', 'new-pontevedra.view.php', 'templates/footer.view.php'), $data);
+        try {
+            $data = [];
+            $errors = $this->checkErrorsAltaPontevedra($_POST);
+            if (empty($errors)) {
+                $registro = [$_POST['municipio'], $_POST['sexo'], $_POST['anho'], $_POST['poblacion']];
+                $model = new CsvModel(self::DATA_FOLDER . 'poblacion_pontevedra.csv');
+
+                $res = $model->insertPoblacionPontevedra($registro);
+                if ($res) {
+                    header('Location: /poblacion-pontevedra');
+                    die();
+                } else {
+                    $errors['municipio'] = 'El registro no se ha podido guardar';
+                }
+
+            }
+        } catch (\ErrorException $e) {
+            $errors['municipio'] = $e->getMessage();
         }
+        $data = [
+            'titulo' => 'Insertar registro en población Pontevedra',
+            'breadcrumb' => ['Csv', 'Población Pontevedra', 'Nuevo registro'],
+            'sexos' => self::SEXOS
+        ];
+        $data['errors'] = $errors;
+        $data['input'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+        $this->view->showViews(array('templates/header.view.php', 'new-pontevedra.view.php', 'templates/footer.view.php'), $data);
     }
 
     private function checkErrorsAltaPontevedra(array $data): array
@@ -146,6 +160,13 @@ class CsvController extends BaseController
         } else {
             if ($data['poblacion'] < 0) {
                 $errors['poblacion'] = 'La población debe ser un número mayor o igual a cero';
+            }
+        }
+
+        if (empty($errors)) {
+            $model = new CsvModel(self::DATA_FOLDER . 'poblacion_pontevedra.csv');
+            if ($model->existsData($data['municipio'], $data['sexo'], (int)$data['anho'])) {
+                $errors['municipio'] = 'Ya existe un registro con el mismo municipio, año y tipo.';
             }
         }
 

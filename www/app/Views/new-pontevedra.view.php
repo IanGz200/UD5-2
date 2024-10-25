@@ -36,7 +36,7 @@
                         <div class="col-12 col-md-6">
                             <div class="mb-3">
                                 <label for="anho">Año:</label>
-                                <select name="anho" id="anho" class="form-control">
+                                <select name="anho" id="anho" class="form-control select2">
                                     <?php
                                     for ($i = date('Y'); $i > date('Y') - 100; $i--) {
                                         ?>
