@@ -13,7 +13,7 @@
             <!-- Card Body -->
             <div class="card-body" id="card_table">
                 <!--<form action="./?sec=formulario" method="post">                   -->
-                <table id="tabladatos" class="table table-striped">
+                <table id="tabladatos" class="table table-striped datatable">
                     <?php
                     $primerRegistro = true;
                     foreach ($registros as $row) {

@@ -12,6 +12,27 @@ class CsvController extends BaseController
     private const DATA_FOLDER = '../app/Data/';
     private const SEXOS = ['Total', 'Mujeres', 'Hombre'];
 
+    private const DATATABLE_CSS_ARRAY = [
+        'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',
+        'plugins/datatables-responsive/css/responsive.bootstrap4.min.css',
+        'plugins/datatables-buttons/css/buttons.bootstrap4.min.css',
+    ];
+
+    private const DATATABLE_JS_ARRAY = [
+        'plugins/datatables/jquery.dataTables.min.js',
+        'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+        'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+        'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+        'plugins/datatables-buttons/js/dataTables.buttons.min.js',
+        'plugins/datatables-buttons/js/buttons.bootstrap4.min.js',
+        'plugins/datatables-buttons/js/buttons.html5.min.js',
+        'plugins/datatables-buttons/js/buttons.print.min.js',
+        'plugins/datatables-buttons/js/buttons.colVis.min.js',
+        'plugins/jszip/jszip.min.js',
+        'plugins/pdfmake/pdfmake.min.js',
+        'plugins/pdfmake/vfs_fonts.js'
+    ];
+
     public function showPoblacionPontevedra(): void
     {
         $data = [
@@ -25,6 +46,8 @@ class CsvController extends BaseController
             $data = array_merge($data, $minMax);
             $data['showMinMax'] = true;
         }
+        $data['css'] = self::DATATABLE_CSS_ARRAY;
+        $data['js'] = array_merge(self::DATATABLE_JS_ARRAY, ['assets/js/pages/csv.view.js']);
         $this->view->showViews(array('templates/header.view.php', 'csv.view.php', 'templates/footer.view.php'), $data);
     }
 

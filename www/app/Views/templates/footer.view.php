@@ -40,9 +40,11 @@
 <script src="assets/js/pages/main.js"></script>
 <?php
 //Para la carga adicional de ficheros JS desde un array
-if(isset($js) && is_array($js)){
-    foreach($js as $jsFile){
-        echo '<script src="'.$jsFile.'"></script>';
+if (isset($js) && is_array($js)) {
+    foreach ($js as $jsFile) {
+        ?>
+        <script src="<?php echo $jsFile; ?>"></script>';
+        <?php
     }
 }
 ?>
