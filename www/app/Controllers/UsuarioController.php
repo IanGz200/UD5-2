@@ -9,8 +9,16 @@ class UsuarioController extends BaseController
 {
     public function getAllUsuarios(): void
     {
+        $data = [
+            'titulo' => 'Mostrar todos los usuarios',
+            'breadcrumb' => ['Usuarios', 'Mostrar todos']
+        ];
         $model = new UsuarioModel();
-        var_dump($model->getUsuarios());
+        $data['usuarios'] = $model->getUsuarios();
+        $this->view->showViews(
+            array('templates/header.view.php', 'usuarios.view.php', 'templates/footer.view.php'),
+            $data
+        );
     }
 
 }
