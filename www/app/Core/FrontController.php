@@ -10,6 +10,15 @@ class FrontController
     public static function main()
     {
         Route::add(
+            '/usuarios',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->getAllUsuarios();
+            },
+            'get'
+        );
+
+        Route::add(
             '/',
             function () {
                 $controlador = new \Com\Daw2\Controllers\InicioController();

@@ -36,7 +36,7 @@ class DBManager
             $user = $_ENV['db.user'];
             $pass = $_ENV['db.pass'];
             $charset = $_ENV['db.charset'];
-            $emulated = (bool)$_ENV['db.emulated'];
+            $emulated = (bool)$_ENV['db.emulated'] ?? false;
 
             $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
             $options = [
