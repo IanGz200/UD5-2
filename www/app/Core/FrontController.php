@@ -19,6 +19,33 @@ class FrontController
         );
 
         Route::add(
+            '/usuarios-order-by-salar',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->getAllUsuariosOrderBySalar();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/usuarios-estandar',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->getUsuariosStandard();
+            },
+            'get'
+        );
+
+        Route::add(
+            '/usuarios-carlos',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->getUsuariosCarlos();
+            },
+            'get'
+        );
+
+        Route::add(
             '/',
             function () {
                 $controlador = new \Com\Daw2\Controllers\InicioController();
