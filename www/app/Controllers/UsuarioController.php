@@ -4,6 +4,7 @@ namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
 use Com\Daw2\Models\UsuarioModel;
+use Decimal\Decimal;
 
 class UsuarioController extends BaseController
 {
@@ -14,11 +15,24 @@ class UsuarioController extends BaseController
             'breadcrumb' => ['Usuarios', 'Mostrar todos']
         ];
         $model = new UsuarioModel();
-        $data['usuarios'] = $model->getUsuarios();
+        $usuarios = $model->getUsuarios();
+
+        $data['usuarios'] = $this->calcularNeto($usuarios);
         $this->view->showViews(
             array('templates/header.view.php', 'usuarios.view.php', 'templates/footer.view.php'),
             $data
         );
+    }
+
+    private function calcularNeto(array $usuarios): array
+    {
+        foreach ($usuarios as &$usuario) {
+            $salarioBruto = new Decimal($usuario['salarioBruto']);
+            $retencionIRPF = new Decimal($usuario['retencionIRPF'], 2);
+            $neto = $salarioBruto - ($salarioBruto * $retencionIRPF / new Decimal('100', 2));
+            $usuario['salarioNeto'] = $neto->toFixed(2, true, Decimal::ROUND_HALF_UP);
+        }
+        return $usuarios;
     }
 
     public function getAllUsuariosOrderBySalar(): void
@@ -28,7 +42,7 @@ class UsuarioController extends BaseController
             'breadcrumb' => ['Usuarios', 'Mostrar ordenados por salario']
         ];
         $model = new UsuarioModel();
-        $data['usuarios'] = $model->getUsuariosOrderBySalarioBruto();
+        $data['usuarios'] = $this->calcularNeto($model->getUsuariosOrderBySalarioBruto());
         $this->view->showViews(
             array('templates/header.view.php', 'usuarios.view.php', 'templates/footer.view.php'),
             $data
@@ -42,7 +56,7 @@ class UsuarioController extends BaseController
             'breadcrumb' => ['Usuarios', 'Usuario estándar']
         ];
         $model = new UsuarioModel();
-        $data['usuarios'] = $model->getUsuariosStandard();
+        $data['usuarios'] = $this->calcularNeto($model->getUsuariosStandard());
         $this->view->showViews(
             array('templates/header.view.php', 'usuarios.view.php', 'templates/footer.view.php'),
             $data
@@ -56,11 +70,10 @@ class UsuarioController extends BaseController
             'breadcrumb' => ['Usuarios', 'Usuario Carlos']
         ];
         $model = new UsuarioModel();
-        $data['usuarios'] = $model->getUsuariosCarlos();
+        $data['usuarios'] = $this->calcularNeto($model->getUsuariosCarlos());
         $this->view->showViews(
             array('templates/header.view.php', 'usuarios.view.php', 'templates/footer.view.php'),
             $data
         );
     }
-
 }

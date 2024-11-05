@@ -18,6 +18,7 @@
                         <th>Nombre de usuario</th>
                         <th>Salario bruto</th>
                         <th>Retención IRPF</th>
+                        <th>Salario Neto</th>
                         <th>Rol</th>
                         <th>Nacionalidad</th>
                     </tr>
@@ -30,6 +31,7 @@
                             <td><?php echo $usuario['username'] ?></td>
                             <td><?php echo number_format($usuario['salarioBruto'], 2, ',', '.'); ?></td>
                             <td><?php echo number_format($usuario['retencionIRPF'], 0) ?>%</td>
+                            <td><?php echo str_replace([',', '.', '_'], ['_', ',', '.'], $usuario['salarioNeto']); ?></td>
                             <td><?php echo $usuario['nombre_rol'] ?></td>
                             <td><?php echo $usuario['country_name'] ?></td>
                         </tr>
