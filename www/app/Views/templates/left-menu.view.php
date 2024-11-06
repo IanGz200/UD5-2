@@ -101,5 +101,15 @@
                   </ul>
               </li>
           </ul>
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+              <li class="nav-item">
+                  <a href="<?php echo $_ENV['host.folder']; ?>usuarios-filtro" class="nav-link <?php echo $_SERVER['REQUEST_URI'] === $_ENV['host.folder'].'usuarios-filtro' ? 'active' : ''; ?>">
+                      <i class="fas fa-user-md nav-icon"></i>
+                      <p>Usuarios filtro</p>
+                  </a>
+              </li>
+          </ul>
       </nav>
       <!-- /.sidebar-menu -->

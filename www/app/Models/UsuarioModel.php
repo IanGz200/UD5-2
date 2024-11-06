@@ -19,6 +19,13 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getByUsername(string $username): array
+    {
+        $statement = $this->pdo->prepare(self::SELECT_FROM . " WHERE us.username LIKE :username");
+        $statement->execute(['username' => "%$username%"]);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getUsuariosOrderBySalarioBruto(): array
     {
         $statement = $this->pdo->query(self::SELECT_FROM . " ORDER BY salarioBruto");

@@ -12,7 +12,8 @@
         "steampixel/simple-php-router": "^0.7.1",
         "vlucas/phpdotenv": "^5.5",
         "ext-pdo": "*",
-      "ext-decimal": "*"
+      "ext-decimal": "*",
+      "ext-mbstring": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "@stable"

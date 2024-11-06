@@ -1,15 +1,15 @@
 <?php
+
 require '../vendor/autoload.php';
-mb_internal_encoding('UTF-8');        
-try{
+mb_internal_encoding('UTF-8');
+try {
     $dotenv = Dotenv\Dotenv::createImmutable('../');
     $dotenv->load();
-    Com\Daw2\Core\FrontController::main();    
+    Com\Daw2\Core\FrontController::main();
 } catch (Exception $e) {
-    if($_ENV['app.debug']){
+    if ($_ENV['app.debug']) {
         throw $e;
-    }
-    else{
+    } else {
         echo $e->getMessage();
     }
 }

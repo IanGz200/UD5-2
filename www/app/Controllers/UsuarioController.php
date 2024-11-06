@@ -8,6 +8,27 @@ use Decimal\Decimal;
 
 class UsuarioController extends BaseController
 {
+    public function usuariosFiltro(): void
+    {
+        $data = [
+            'titulo' => 'Listado usuarios',
+            'breadcrumb' => ['Usuarios', 'Listado usuarios']
+        ];
+        $model = new UsuarioModel();
+        if (!empty($_GET['username'])) {
+            $usuarios = $model->getByUsername($_GET['username']);
+        } else {
+            $usuarios = $model->getUsuarios();
+        }
+
+        $data['input'] = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['usuarios'] = $this->calcularNeto($usuarios);
+
+        $this->view->showViews(
+            array('templates/header.view.php', 'usuarios-filtro.view.php', 'templates/footer.view.php'),
+            $data
+        );
+    }
     public function getAllUsuarios(): void
     {
         $data = [
