@@ -24,6 +24,20 @@
                                 />
                             </div>
                         </div>
+                        <div class="col-12 col-lg-3">
+                            <div class="form-group">
+                                <label for="id_rol">Tipo:</label>
+                                <select name="id_rol" id="id_rol" class="form-control">
+                                    <option value="">-</option>
+                                    <?php foreach ($roles as $role) {
+                                        ?>
+                                        <option value="<?php echo $role['id_rol'] ?>" <?php echo (isset($input['id_rol']) && $role['id_rol'] == $input['id_rol']) ? 'selected' : ''; ?>><?php echo ucfirst($role['nombre_rol']); ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <!--
                         <div class="col-12 col-lg-4">
                             <div class="form-group">

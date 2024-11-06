@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Models\AuxRolModel;
 use Com\Daw2\Models\UsuarioModel;
 use Decimal\Decimal;
 
@@ -14,14 +17,20 @@ class UsuarioController extends BaseController
             'titulo' => 'Listado usuarios',
             'breadcrumb' => ['Usuarios', 'Listado usuarios']
         ];
+        $auxRolModel = new AuxRolModel();
+        $data['roles'] = $auxRolModel->getAll();
+
         $model = new UsuarioModel();
         if (!empty($_GET['username'])) {
             $usuarios = $model->getByUsername($_GET['username']);
+        } elseif (!empty($_GET['id_rol'])) {
+            $usuarios = $model->getByRol((int)$_GET['id_rol']);
         } else {
             $usuarios = $model->getUsuarios();
         }
 
-        $data['input'] = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
+        $data['input'] = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $data['usuarios'] = $this->calcularNeto($usuarios);
 
         $this->view->showViews(

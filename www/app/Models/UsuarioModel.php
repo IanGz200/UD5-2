@@ -26,6 +26,13 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getByRol(int $idRol): array
+    {
+        $statement = $this->pdo->prepare(self::SELECT_FROM . " WHERE us.id_rol = :id_rol");
+        $statement->execute(['id_rol' => $idRol]);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getUsuariosOrderBySalarioBruto(): array
     {
         $statement = $this->pdo->query(self::SELECT_FROM . " ORDER BY salarioBruto");

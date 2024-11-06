@@ -17,6 +17,11 @@
       <phpcs_by_interpreter interpreter_id="86288cdd-faf0-43ab-baaf-27d0f5e41c07" beautifier_path="/var/www/html/vendor/bin/phpcbf" standards="MySource;PEAR;PSR1;PSR12;PSR2;Squiz;Zend" tool_path="/var/www/html/vendor/bin/phpcs" timeout="30000" />
     </phpcs_settings>
   </component>
+  <component name="PhpDebugIgnoredPathsSettings">
+    <skipped_paths>
+      <skipped_path path="$PROJECT_DIR$/www/vendor" />
+    </skipped_paths>
+  </component>
   <component name="PhpExternalFormatter">
     <option name="externalFormatter" value="PHP_CBF" />
   </component>
