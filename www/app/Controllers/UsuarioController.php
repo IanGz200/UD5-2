@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Models\AuxCountries;
 use Com\Daw2\Models\AuxRolModel;
 use Com\Daw2\Models\UsuarioModel;
 use Decimal\Decimal;
@@ -20,11 +21,30 @@ class UsuarioController extends BaseController
         $auxRolModel = new AuxRolModel();
         $data['roles'] = $auxRolModel->getAll();
 
+        $countriesModel = new AuxCountries();
+        $data['countries'] = $countriesModel->getAll();
+
         $model = new UsuarioModel();
         if (!empty($_GET['username'])) {
             $usuarios = $model->getByUsername($_GET['username']);
         } elseif (!empty($_GET['id_rol'])) {
             $usuarios = $model->getByRol((int)$_GET['id_rol']);
+        } elseif (
+            (!empty($_GET['min_salar']) && filter_var($_GET['min_salar'], FILTER_VALIDATE_FLOAT))
+            || (!empty($_GET['max_salar']) && filter_var($_GET['max_salar'], FILTER_VALIDATE_FLOAT))
+        ) {
+            $minSalar = (!empty($_GET['min_salar']) && filter_var($_GET['min_salar'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['min_salar']) : null;
+            $maxSalar = (!empty($_GET['max_salar']) && filter_var($_GET['max_salar'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['max_salar']) : null;
+            $usuarios = $model->getBySalar($minSalar, $maxSalar);
+        } elseif (
+            (!empty($_GET['min_retencion']) && filter_var($_GET['min_retencion'], FILTER_VALIDATE_FLOAT))
+            || (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT))
+        ) {
+            $minRetencion = (!empty($_GET['min_retencion']) && filter_var($_GET['min_retencion'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['min_retencion']) : null;
+            $maxRetencion = (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['max_retencion']) : null;
+            $usuarios = $model->getByRetencion($minRetencion, $maxRetencion);
+        } elseif (!empty($_GET['id_country'])) {
+            $usuario =
         } else {
             $usuarios = $model->getUsuarios();
         }

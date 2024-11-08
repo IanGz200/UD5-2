@@ -33,6 +33,60 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getBySalar(?Decimal $minSalar, ?Decimal $maxSalar): array
+    {
+        $condiciones = [];
+        $vars = [];
+        if (!is_null($minSalar)) {
+            $condiciones[] = "us.salarioBruto >= :minSalar";
+            $vars['minSalar'] = $minSalar;
+        }
+        if (!is_null($maxSalar)) {
+            $condiciones[] = "us.salarioBruto <= :maxSalar";
+            $vars['maxSalar'] = $maxSalar;
+        }
+        if (!empty($condiciones)) {
+            $sql = self::SELECT_FROM . " WHERE " . implode(" AND ", $condiciones);
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute($vars);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return $this->getUsuarios();
+        }
+    }
+
+    public function getByRetencion(?Decimal $minRetencion, ?Decimal $maxRetencion): array
+    {
+        $condiciones = [];
+        $vars = [];
+        if (!is_null($minRetencion)) {
+            $condiciones[] = "us.retencionIRPF >= :minRetencion";
+            $vars['minRetencion'] = $minRetencion;
+        }
+        if (!is_null($maxRetencion)) {
+            $condiciones[] = "us.retencionIRPF <= :maxRetencion";
+            $vars['maxRetencion'] = $maxRetencion;
+        }
+        if (!empty($condiciones)) {
+            $sql = self::SELECT_FROM . " WHERE " . implode(" AND ", $condiciones);
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute($vars);
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return $this->getUsuarios();
+        }
+    }
+
+    public function getByCountries(array $idCountries): array
+    {
+        $vars = [];
+        $i = 1;
+        foreach ($idCountries as $idCountry) {
+            $vars[':id_country' . $i] = $idCountry;
+        }
+        array_keys()
+    }
+
     public function getUsuariosOrderBySalarioBruto(): array
     {
         $statement = $this->pdo->query(self::SELECT_FROM . " ORDER BY salarioBruto");

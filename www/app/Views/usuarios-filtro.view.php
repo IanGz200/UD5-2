@@ -38,6 +38,49 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="salario_min">Salario:</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" name="min_salar" id="min_salar" value="<?php echo $input['min_salar'] ?? ''; ?>" placeholder="Mínimo" />
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" name="max_salar" id="max_salar" value="<?php echo $input['max_salar'] ?? ''; ?>" placeholder="Máximo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="retencion_min">Retención:</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" name="min_retencion" id="min_retencion" value="<?php echo $input['min_retencion'] ?? ''; ?>" placeholder="Mínimo" />
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" name="max_retencion" id="max_retencion" value="<?php echo $input['max_retencion'] ?? ''; ?>" placeholder="Máximo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <div class="form-group">
+                                <label for="id_country">Tipo:</label>
+                                <select name="id_country[]" id="id_country" class="form-control select2" data-placeholder="Países" multiple>
+                                    <?php
+                                    foreach ($countries as $country) {
+                                        ?>
+                                        <option value="<?php echo $country['id']; ?>">
+                                            <?php echo $country['country_name']; ?>
+                                        </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <!--
                         <div class="col-12 col-lg-4">
                             <div class="form-group">
