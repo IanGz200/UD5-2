@@ -25,29 +25,31 @@ class UsuarioController extends BaseController
         $data['countries'] = $countriesModel->getAll();
 
         $model = new UsuarioModel();
+        $filtros = [];
         if (!empty($_GET['username'])) {
-            $usuarios = $model->getByUsername($_GET['username']);
-        } elseif (!empty($_GET['id_rol'])) {
-            $usuarios = $model->getByRol((int)$_GET['id_rol']);
-        } elseif (
-            (!empty($_GET['min_salar']) && filter_var($_GET['min_salar'], FILTER_VALIDATE_FLOAT))
-            || (!empty($_GET['max_salar']) && filter_var($_GET['max_salar'], FILTER_VALIDATE_FLOAT))
-        ) {
-            $minSalar = (!empty($_GET['min_salar']) && filter_var($_GET['min_salar'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['min_salar']) : null;
-            $maxSalar = (!empty($_GET['max_salar']) && filter_var($_GET['max_salar'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['max_salar']) : null;
-            $usuarios = $model->getBySalar($minSalar, $maxSalar);
-        } elseif (
-            (!empty($_GET['min_retencion']) && filter_var($_GET['min_retencion'], FILTER_VALIDATE_FLOAT))
-            || (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT))
-        ) {
-            $minRetencion = (!empty($_GET['min_retencion']) && filter_var($_GET['min_retencion'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['min_retencion']) : null;
-            $maxRetencion = (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['max_retencion']) : null;
-            $usuarios = $model->getByRetencion($minRetencion, $maxRetencion);
-        } elseif (!empty($_GET['id_country'])) {
-            $usuarios = $model->getByCountries($_GET['id_country']);
-        } else {
-            $usuarios = $model->getUsuarios();
+            $filtros['username'] = '%'.$_GET['username'].'%';
         }
+        if (!empty($_GET['id_rol'])) {
+            $filtros['id_rol'] = ((int)$_GET['id_rol']);
+        }
+        if ((!empty($_GET['min_salar']) && filter_var($_GET['min_salar'], FILTER_VALIDATE_FLOAT))){
+            $filtros['min_salar'] =  new Decimal($_GET['min_salar']);
+        }
+        if (!empty($_GET['max_salar']) && filter_var($_GET['max_salar'], FILTER_VALIDATE_FLOAT))
+        {
+            $filtros['max_salar'] =  new Decimal($_GET['max_salar']);
+        }
+        if ((!empty($_GET['min_retencion']) && filter_var($_GET['min_retencion'], FILTER_VALIDATE_FLOAT))){
+            $filtros['min_retencion'] = new Decimal($_GET['min_retencion']);
+        }
+        if (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT))
+        {
+            $filtros['max_retencion'] = new Decimal($_GET['max_retencion']);
+        }
+        if (!empty($_GET['id_country'])) {
+            $filtros['id_country'] = $_GET['id_country'];
+        }
+        $usuarios = $model->getUsuarioFiltros($filtros);
 
         $data['input'] = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 

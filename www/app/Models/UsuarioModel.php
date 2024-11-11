@@ -13,10 +13,53 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
                                     FROM usuario us
                                     JOIN aux_rol ar ON us.id_rol = ar.id_rol
                                     LEFT JOIN aux_countries ac ON us.id_country = ac.id";
+
     public function getUsuarios(): array
     {
         $statement = $this->pdo->query(self::SELECT_FROM);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUsuarioFiltros(array $filtros): array
+    {
+        if (empty($filtros)) {
+            $stmt = $this->pdo->query(self::SELECT_FROM);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $condiciones = [];
+            if (isset($filtros['username'])) {
+                $condiciones[] = 'us.username LIKE :username';
+            }
+            if (isset($filtros['id_rol'])) {
+                $condiciones[] = 'us.id_rol = :id_rol';
+            }
+            if (isset($filtros['min_salar'])) {
+                $condiciones[] = 'us.salarioBruto >= :min_salar';
+            }
+            if (isset($filtros['max_salar'])) {
+                $condiciones[] = 'us.salarioBruto <= :max_salar';
+            }
+            if (isset($filtros['min_retencion'])) {
+                $condiciones[] = 'us.retencionIRPF >= :min_retencion';
+            }
+            if (isset($filtros['max_retencion'])) {
+                $condiciones[] = 'us.retencionIRPF <= :max_retencion';
+            }
+            if (isset($filtros['id_country'])) {
+                $i = 1;
+                $countries = [];
+                foreach ($filtros['id_country'] as $idCountry) {
+                    $countries[':id_country' . $i++] = $idCountry;
+                }
+                unset($filtros['id_country']);
+                $filtros = array_merge($filtros, $countries);
+                $condiciones[] = 'us.id_country IN (' . implode(',', array_keys($countries)) . ')';
+            }
+            $sql = self::SELECT_FROM . ' WHERE ' . implode(' AND ', $condiciones);
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($filtros);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
     public function getByUsername(string $username): array
