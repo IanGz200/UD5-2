@@ -72,7 +72,7 @@
                                     <?php
                                     foreach ($countries as $country) {
                                         ?>
-                                        <option value="<?php echo $country['id']; ?>">
+                                        <option value="<?php echo $country['id']; ?>" <?php echo (isset($input['id_country']) && in_array($country['id'], $input['id_country'])) ? 'selected' : ''; ?>>
                                             <?php echo $country['country_name']; ?>
                                         </option>
                                         <?php

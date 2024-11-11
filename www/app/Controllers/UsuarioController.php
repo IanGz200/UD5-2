@@ -44,7 +44,7 @@ class UsuarioController extends BaseController
             $maxRetencion = (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT)) ? new Decimal($_GET['max_retencion']) : null;
             $usuarios = $model->getByRetencion($minRetencion, $maxRetencion);
         } elseif (!empty($_GET['id_country'])) {
-            $usuario =
+            $usuarios = $model->getByCountries($_GET['id_country']);
         } else {
             $usuarios = $model->getUsuarios();
         }

@@ -82,9 +82,13 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         $vars = [];
         $i = 1;
         foreach ($idCountries as $idCountry) {
-            $vars[':id_country' . $i] = $idCountry;
+            $vars[':id_country' . $i++] = $idCountry;
         }
-        array_keys()
+        $_valores = array_keys($vars);
+        $query = self::SELECT_FROM . ' WHERE id_country IN (' . implode(',', $_valores) . ')';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($vars);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUsuariosOrderBySalarioBruto(): array
