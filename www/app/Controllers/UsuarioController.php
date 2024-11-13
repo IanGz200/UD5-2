@@ -12,6 +12,7 @@ use Decimal\Decimal;
 
 class UsuarioController extends BaseController
 {
+    const ORDER_DEFECTO = 1;
     public function usuariosFiltro(): void
     {
         $data = [
@@ -49,7 +50,11 @@ class UsuarioController extends BaseController
         if (!empty($_GET['id_country'])) {
             $filtros['id_country'] = $_GET['id_country'];
         }
-        $usuarios = $model->getUsuarioFiltros($filtros);
+
+        $order = $this->getOrderColumn();
+        $data['order'] = $order;
+
+        $usuarios = $model->getUsuarioFiltros($filtros, $order);
 
         $data['input'] = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -59,6 +64,16 @@ class UsuarioController extends BaseController
             array('templates/header.view.php', 'usuarios-filtro.view.php', 'templates/footer.view.php'),
             $data
         );
+    }
+
+    private function getOrderColumn(): int
+    {
+        if (isset($_GET['order']) && filter_var($_GET['order'], FILTER_VALIDATE_INT)) {
+            if ($_GET['order'] > 0 && $_GET['order'] <= count(UsuarioModel::ORDER_COLUMNS)) {
+                return (int)$_GET['order'];
+            }
+        }
+        return self::ORDER_DEFECTO;
     }
     public function getAllUsuarios(): void
     {

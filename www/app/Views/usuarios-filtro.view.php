@@ -81,47 +81,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!--
-                        <div class="col-12 col-lg-4">
-                            <div class="form-group">
-                                <label for="nombre_completo">Nombre completo:</label>
-                                <input type="text" class="form-control" name="nombre_completo" id="nombre_completo" value="" />
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-3">
-                            <div class="form-group">
-                                <label for="id_tipo">Tipo:</label>
-                                <select name="id_tipo[]" id="id_tipo" class="form-control select2" data-placeholder="Tipo proveedor" multiple>
-                                    <option value="">-</option>
-                                    <option value="3" >Componentes móviles</option>
-                                    <option value="4" >Componentes PC</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="form-group">
-                                <label for="id_continente">Continente:</label>
-                                <select name="id_continente" id="id_continente" class="form-control" data-placeholder="Continente">
-                                    <option value="">-</option>
-                                    <option value="1" >Europa</option>
-                                    <option value="2" >Asia</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-4">
-                            <div class="form-group">
-                                <label for="anho_fundacion">Año fundación:</label>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="text" class="form-control" name="min_anho" id="min_anho" value="" placeholder="Mí­nimo" />
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" class="form-control" name="max_anho" id="max_anho" value="" placeholder="Máximo" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
                 </div>
                 <div class="card-footer">
                     <div class="col-12 text-right">
@@ -147,12 +106,12 @@
                 <table id="tabladatos" class="table table-striped datatable">
                     <thead>
                     <tr>
-                        <th>Nombre de usuario</th>
-                        <th>Salario bruto</th>
-                        <th>Retención IRPF</th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=1' ?>">Nombre de usuario</a> <?php if ($order == 1) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=2' ?>">Salario bruto</a> <?php if ($order == 2) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=3' ?>">Retención IRPF</a> <?php if ($order == 3) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
                         <th>Salario Neto</th>
-                        <th>Rol</th>
-                        <th>Nacionalidad</th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=4' ?>">Rol</a> <?php if ($order == 4) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=5' ?>">Nacionalidad</a> <?php if ($order == 5) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
                     </tr>
                     </thead>
                     <tbody>

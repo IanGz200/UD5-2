@@ -9,6 +9,7 @@ use PDO;
 
 class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
 {
+    public const ORDER_COLUMNS = ['username', 'salarioBruto', 'retencionIRPF', 'nombre_rol', 'country_name'];
     private const SELECT_FROM = "SELECT us.*, ar.nombre_rol, ac.country_name
                                     FROM usuario us
                                     JOIN aux_rol ar ON us.id_rol = ar.id_rol
@@ -20,10 +21,10 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getUsuarioFiltros(array $filtros): array
+    public function getUsuarioFiltros(array $filtros, int $order): array
     {
         if (empty($filtros)) {
-            $stmt = $this->pdo->query(self::SELECT_FROM);
+            $stmt = $this->pdo->query(self::SELECT_FROM . ' ORDER BY '.self::ORDER_COLUMNS[$order - 1]) ;
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
             $condiciones = [];
@@ -55,7 +56,7 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
                 $filtros = array_merge($filtros, $countries);
                 $condiciones[] = 'us.id_country IN (' . implode(',', array_keys($countries)) . ')';
             }
-            $sql = self::SELECT_FROM . ' WHERE ' . implode(' AND ', $condiciones);
+            $sql = self::SELECT_FROM . ' WHERE ' . implode(' AND ', $condiciones). ' ORDER BY '.self::ORDER_COLUMNS[$order - 1];
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($filtros);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
