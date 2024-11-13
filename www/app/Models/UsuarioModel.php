@@ -23,8 +23,10 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
 
     public function getUsuarioFiltros(array $filtros, int $order): array
     {
+        $sentidoOrder = ($order < 0) ? 'DESC' : 'ASC';
+        $order = abs($order);
         if (empty($filtros)) {
-            $stmt = $this->pdo->query(self::SELECT_FROM . ' ORDER BY '.self::ORDER_COLUMNS[$order - 1]) ;
+            $stmt = $this->pdo->query(self::SELECT_FROM . ' ORDER BY '.self::ORDER_COLUMNS[$order - 1]. " $sentidoOrder") ;
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
             $condiciones = [];
@@ -56,7 +58,7 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
                 $filtros = array_merge($filtros, $countries);
                 $condiciones[] = 'us.id_country IN (' . implode(',', array_keys($countries)) . ')';
             }
-            $sql = self::SELECT_FROM . ' WHERE ' . implode(' AND ', $condiciones). ' ORDER BY '.self::ORDER_COLUMNS[$order - 1];
+            $sql = self::SELECT_FROM . ' WHERE ' . implode(' AND ', $condiciones). ' ORDER BY '.self::ORDER_COLUMNS[$order - 1]. " $sentidoOrder";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($filtros);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);

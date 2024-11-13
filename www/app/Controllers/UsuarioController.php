@@ -13,6 +13,7 @@ use Decimal\Decimal;
 class UsuarioController extends BaseController
 {
     const ORDER_DEFECTO = 1;
+
     public function usuariosFiltro(): void
     {
         $data = [
@@ -28,23 +29,21 @@ class UsuarioController extends BaseController
         $model = new UsuarioModel();
         $filtros = [];
         if (!empty($_GET['username'])) {
-            $filtros['username'] = '%'.$_GET['username'].'%';
+            $filtros['username'] = '%' . $_GET['username'] . '%';
         }
         if (!empty($_GET['id_rol'])) {
             $filtros['id_rol'] = ((int)$_GET['id_rol']);
         }
-        if ((!empty($_GET['min_salar']) && filter_var($_GET['min_salar'], FILTER_VALIDATE_FLOAT))){
-            $filtros['min_salar'] =  new Decimal($_GET['min_salar']);
+        if ((!empty($_GET['min_salar']) && filter_var($_GET['min_salar'], FILTER_VALIDATE_FLOAT))) {
+            $filtros['min_salar'] = new Decimal($_GET['min_salar']);
         }
-        if (!empty($_GET['max_salar']) && filter_var($_GET['max_salar'], FILTER_VALIDATE_FLOAT))
-        {
-            $filtros['max_salar'] =  new Decimal($_GET['max_salar']);
+        if (!empty($_GET['max_salar']) && filter_var($_GET['max_salar'], FILTER_VALIDATE_FLOAT)) {
+            $filtros['max_salar'] = new Decimal($_GET['max_salar']);
         }
-        if ((!empty($_GET['min_retencion']) && filter_var($_GET['min_retencion'], FILTER_VALIDATE_FLOAT))){
+        if ((!empty($_GET['min_retencion']) && filter_var($_GET['min_retencion'], FILTER_VALIDATE_FLOAT))) {
             $filtros['min_retencion'] = new Decimal($_GET['min_retencion']);
         }
-        if (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT))
-        {
+        if (!empty($_GET['max_retencion']) && filter_var($_GET['max_retencion'], FILTER_VALIDATE_FLOAT)) {
             $filtros['max_retencion'] = new Decimal($_GET['max_retencion']);
         }
         if (!empty($_GET['id_country'])) {
@@ -53,6 +52,14 @@ class UsuarioController extends BaseController
 
         $order = $this->getOrderColumn();
         $data['order'] = $order;
+
+        $_copiaGET = $_GET;
+        unset($_copiaGET['order']);
+
+        $data['queryString'] = http_build_query($_copiaGET);
+        if (!empty($data['queryString'])) {
+            $data['queryString'] .= '&';
+        }
 
         $usuarios = $model->getUsuarioFiltros($filtros, $order);
 
@@ -69,12 +76,13 @@ class UsuarioController extends BaseController
     private function getOrderColumn(): int
     {
         if (isset($_GET['order']) && filter_var($_GET['order'], FILTER_VALIDATE_INT)) {
-            if ($_GET['order'] > 0 && $_GET['order'] <= count(UsuarioModel::ORDER_COLUMNS)) {
+            if (abs((int)$_GET['order']) > 0 && abs((int)$_GET['order']) <= count(UsuarioModel::ORDER_COLUMNS)) {
                 return (int)$_GET['order'];
             }
         }
         return self::ORDER_DEFECTO;
     }
+
     public function getAllUsuarios(): void
     {
         $data = [

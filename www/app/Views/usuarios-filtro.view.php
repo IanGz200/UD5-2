@@ -3,7 +3,7 @@
     <div class="col-12">
         <div class="card shadow mb-4">
             <form method="get" action="">
-                <input type="hidden" name="order" value="1"/>
+                <input type="hidden" name="order" value="<?php echo $order; ?>"/>
                 <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
@@ -106,12 +106,12 @@
                 <table id="tabladatos" class="table table-striped datatable">
                     <thead>
                     <tr>
-                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=1' ?>">Nombre de usuario</a> <?php if ($order == 1) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th>
-                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=2' ?>">Salario bruto</a> <?php if ($order == 2) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
-                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=3' ?>">Retención IRPF</a> <?php if ($order == 3) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryString.'order='.(($order == 1) ? '-' : ''); ?>1">Nombre de usuario</a> <?php if (abs($order) == 1) { ?><i class="fas fa-sort-amount-<?php echo $order < 0 ? 'up' : 'down'; ?>-alt"></i><?php } ?></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryString.'order='.(($order == 2) ? '-' : ''); ?>2">Salario bruto</a> <?php if (abs($order) == 2) { ?><i class="fas fa-sort-amount-<?php echo $order < 0 ? 'up' : 'down'; ?>-alt"></i><?php } ?></th></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryString.'order='.(($order == 3) ? '-' : ''); ?>3">Retención IRPF</a> <?php if (abs($order) == 3) { ?><i class="fas fa-sort-amount-<?php echo $order < 0 ? 'up' : 'down'; ?>-alt"></i><?php } ?></th></th>
                         <th>Salario Neto</th>
-                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=4' ?>">Rol</a> <?php if ($order == 4) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
-                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?order=5' ?>">Nacionalidad</a> <?php if ($order == 5) { ?><i class="fas fa-sort-amount-down-alt"></i><?php } ?></th></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryString.'order='.(($order == 4) ? '-' : ''); ?>4">Rol</a> <?php if (abs($order) == 4) { ?><i class="fas fa-sort-amount-<?php echo $order < 0 ? 'up' : 'down'; ?>-alt"></i><?php } ?></th></th>
+                        <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryString.'order='.(($order == 5) ? '-' : ''); ?>5">Nacionalidad</a> <?php if (abs($order) == 5) { ?><i class="fas fa-sort-amount-<?php echo $order < 0 ? 'up' : 'down'; ?>-alt"></i><?php } ?></th></th>
                     </tr>
                     </thead>
                     <tbody>
