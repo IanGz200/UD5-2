@@ -81,6 +81,7 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="col-12 text-right">
