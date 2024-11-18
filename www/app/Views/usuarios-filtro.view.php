@@ -98,7 +98,17 @@
         <div class="card shadow mb-4">
             <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div class="col-9"><h6 class="m-0 font-weight-bold text-primary"><?php echo $titulo; ?></h6></div>
+                <div class="col-6">
+                    <h6 class="m-0 install font-weight-bold text-primary">
+                        Usuarios</h6>
+                </div>
+                <div class="col-6">
+                    <div class="m-0 font-weight-bold justify-content-end">
+                        <a href="#"
+                           class="btn btn-primary ml-1 float-right"> Nuevo
+                            Usuario <i class="fas fa-plus-circle"></i></a>
+                    </div>
+                </div>
             </div>
             <!-- Card Body -->
             <div class="card-body" id="card_table">
