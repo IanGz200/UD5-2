@@ -85,7 +85,7 @@
                 <div class="card-footer">
                     <div class="col-12 text-right">
                         <a href="<?php echo $_ENV['host.folder']; ?>usuarios-filtro" value="" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
-                        <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
+                        <input type="submit" value="Aplicar filtros" class="btn btn-primary ml-2"/>
                     </div>
                 </div>
             </form>
@@ -131,6 +131,49 @@
                     ?>
                     </tbody>
                 </table>
+            </div>
+            <div class="card-footer">
+                <nav aria-label="Navegacion por paginas">
+                    <ul class="pagination justify-content-center">
+                        <?php
+                        if ($page > 1){
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryStringNoPage; ?>page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryStringNoPage; ?>page=<?php echo $page - 1; ?>" aria-label="Previous">
+                                <span aria-hidden="true">&lt;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <?php
+                        }
+                        ?>
+                        <li class="page-item active"><a class="page-link" href="#"><?php echo $page; ?></a></li>
+                        <?php
+                        if ($page < $maxPage){
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'. $queryStringNoPage; ?>page=<?php echo $page + 1; ?>" aria-label="Next">
+                                <span aria-hidden="true">&gt;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'. $queryStringNoPage; ?>page=<?php echo $maxPage; ?>" aria-label="Last">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Last</span>
+                            </a>
+                        </li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
+                </nav>
             </div>
         </div>
             <?php

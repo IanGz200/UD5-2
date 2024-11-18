@@ -54,6 +54,12 @@ class UsuarioController extends BaseController
         $data['order'] = $order;
 
         $_copiaGET = $_GET;
+        unset($_copiaGET['page']);
+        $data['queryStringNoPage'] = http_build_query($_copiaGET);
+        if (!empty($data['queryStringNoPage'])) {
+            $data['queryStringNoPage'] .= '&';
+        }
+
         unset($_copiaGET['order']);
 
         $data['queryString'] = http_build_query($_copiaGET);
@@ -61,7 +67,17 @@ class UsuarioController extends BaseController
             $data['queryString'] .= '&';
         }
 
-        $usuarios = $model->getUsuarioFiltros($filtros, $order);
+        $registros = $model->countUsuarioFiltros($filtros);
+        $page = isset($_GET['page']) && filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT) ?
+            $this->getPage((int)$_GET['page'], $registros) :
+            1;
+
+        $data['page'] = $page;
+
+        $data['maxPage'] = $this->getMaxPage($registros);
+
+        $usuarios = $model->getUsuarioFiltros($filtros, $order, $page);
+
 
         $data['input'] = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -71,6 +87,28 @@ class UsuarioController extends BaseController
             array('templates/header.view.php', 'usuarios-filtro.view.php', 'templates/footer.view.php'),
             $data
         );
+    }
+
+    private function getPage(int $page, int $numReg, int $pageSize = -1): int
+    {
+        if ($page < 1) {
+            $page = 1;
+        }
+        if ($pageSize <= 0){
+            $pageSize = (int)$_ENV['usuarios.rows_per_page'];
+        }
+        if (UsuarioModel::getOffset($page, $pageSize) >= $numReg) {
+            $page = 1;
+        }
+
+        return $page;
+    }
+
+    private function getMaxPage(int $numReg, int $pageSize = -1): int{
+        if ($pageSize <= 0){
+            $pageSize = (int)$_ENV['usuarios.rows_per_page'];
+        }
+        return (int)ceil($numReg / $pageSize);
     }
 
     private function getOrderColumn(): int
