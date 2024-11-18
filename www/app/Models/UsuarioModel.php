@@ -70,7 +70,7 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         return ($page - 1) * $pageSize;
     }
 
-    private function getCondiciones(array $filtros): array
+    private function getCondiciones(array &$filtros): array
     {
         $condiciones = [];
         if (isset($filtros['username'])) {
