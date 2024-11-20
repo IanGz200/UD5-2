@@ -142,10 +142,15 @@ class UsuarioController extends BaseController
     private function calcularNeto(array $usuarios): array
     {
         foreach ($usuarios as &$usuario) {
-            $salarioBruto = new Decimal($usuario['salarioBruto']);
-            $retencionIRPF = new Decimal($usuario['retencionIRPF']);
-            $neto = $salarioBruto - ($salarioBruto * $retencionIRPF / new Decimal('100', 2));
-            $usuario['salarioNeto'] = $neto->toFixed(2, true, Decimal::ROUND_HALF_UP);
+            if (!is_null($usuario['salarioBruto']) && !is_null($usuario['retencionIRPF'])) {
+                $salarioBruto = new Decimal($usuario['salarioBruto']);
+                $retencionIRPF = new Decimal($usuario['retencionIRPF']);
+                $neto = $salarioBruto - ($salarioBruto * $retencionIRPF / new Decimal('100', 2));
+                $usuario['salarioNeto'] = $neto->toFixed(2, true, Decimal::ROUND_HALF_UP);
+            }
+            else{
+                $usuario['salarioNeto'] = 0;
+            }
         }
         return $usuarios;
     }
@@ -220,6 +225,11 @@ class UsuarioController extends BaseController
         if ($errors === []) {
             $insertData = $_POST;
             $insertData['activo'] = isset($insertData['activo']) ? 1 : 0;
+            foreach ($insertData as $key => $value) {
+                if (empty($value)) {
+                    $insertData[$key] = null;
+                }
+            }
             $model = new UsuarioModel();
             if ($model->insertUsuario($insertData)) {
                 header('Location: /usuarios-filtro');

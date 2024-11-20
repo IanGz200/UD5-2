@@ -30,9 +30,9 @@
                         ?>
                         <tr class="<?php echo !$usuario['activo'] ? 'table-danger' : ''; ?>">
                             <td><?php echo $usuario['username'] ?></td>
-                            <td><?php echo number_format($usuario['salarioBruto'], 2, ',', '.'); ?></td>
-                            <td><?php echo number_format($usuario['retencionIRPF'], 2) ?>%</td>
-                            <td><?php echo str_replace([',', '.', '_'], ['_', ',', '.'], $usuario['salarioNeto']); ?></td>
+                            <td><?php echo !empty($usuario['salarioBruto']) ? number_format($usuario['salarioBruto'], 2, ',', '.') : '-'; ?></td>
+                            <td><?php echo !empty($usuario['retencionIRPF']) ? number_format($usuario['retencionIRPF'], 2).'%' : '-' ?></td>
+                            <td><?php echo !empty($usuario['salarioNeto']) ? str_replace([',', '.', '_'], ['_', ',', '.'], $usuario['salarioNeto']) : '-'; ?></td>
                             <td><?php echo $usuario['nombre_rol'] ?></td>
                             <td><?php echo $usuario['country_name'] ?></td>
 
