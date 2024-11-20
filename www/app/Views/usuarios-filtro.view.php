@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-6">
                     <div class="m-0 font-weight-bold justify-content-end">
-                        <a href="#"
+                        <a href="<?php echo $_ENV['host.folder'].'usuarios/new'; ?>"
                            class="btn btn-primary ml-1 float-right"> Nuevo
                             Usuario <i class="fas fa-plus-circle"></i></a>
                     </div>
@@ -123,6 +123,7 @@
                         <th>Salario Neto</th>
                         <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryString.'order='.(($order == 4) ? '-' : ''); ?>4">Rol</a> <?php if (abs($order) == 4) { ?><i class="fas fa-sort-amount-<?php echo $order < 0 ? 'up' : 'down'; ?>-alt"></i><?php } ?></th></th>
                         <th><a href="<?php echo $_ENV['host.folder'].'usuarios-filtro?'.$queryString.'order='.(($order == 5) ? '-' : ''); ?>5">Nacionalidad</a> <?php if (abs($order) == 5) { ?><i class="fas fa-sort-amount-<?php echo $order < 0 ? 'up' : 'down'; ?>-alt"></i><?php } ?></th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -132,10 +133,13 @@
                         <tr class="<?php echo !$usuario['activo'] ? 'table-danger' : ''; ?>">
                             <td><?php echo $usuario['username'] ?></td>
                             <td><?php echo number_format($usuario['salarioBruto'], 2, ',', '.'); ?></td>
-                            <td><?php echo number_format($usuario['retencionIRPF'], 0) ?>%</td>
+                            <td><?php echo number_format($usuario['retencionIRPF'], 2) ?>%</td>
                             <td><?php echo str_replace([',', '.', '_'], ['_', ',', '.'], $usuario['salarioNeto']); ?></td>
                             <td><?php echo $usuario['nombre_rol'] ?></td>
                             <td><?php echo $usuario['country_name'] ?></td>
+                            <td>
+                                <a href="<?php echo $_ENV['host.folder'].'usuarios/edit/'.$usuario['username']; ?>" class="btn btn-success ml-1" data-toggle="tooltip" data-placement="top" title="Editar usuario"><i class="fas fa-edit"></i></a>
+                            </td>
                         </tr>
                         <?php
                     }

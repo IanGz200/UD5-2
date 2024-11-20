@@ -55,6 +55,31 @@ class FrontController
         );
 
         Route::add(
+            '/usuarios/new',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->showNewUsuario();
+            },
+            'get'
+        );
+        Route::add(
+            '/usuarios/new',
+            function () {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->doNewUsuario();
+            },
+            'post'
+        );
+        Route::add(
+            '/usuarios/edit/(\p{L}[\p{L}_\p{N}]{2,49})',
+            function ($usuario) {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->showEditUsuario($usuario);
+            },
+            'get'
+        );
+
+        Route::add(
             '/',
             function () {
                 $controlador = new \Com\Daw2\Controllers\InicioController();

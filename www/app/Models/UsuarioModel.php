@@ -193,4 +193,17 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         $statement = $this->pdo->query(self::SELECT_FROM . " WHERE us.username LIKE 'Carlos%'");
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function insertUsuario(array $usuario): bool
+    {
+        $stmt = $this->pdo->prepare('Insert into usuario (username, salarioBruto, retencionIRPF, activo, id_rol, id_country)
+                                    values (:username, :salarioBruto, :retencionIRPF, :activo, :id_rol, :id_country)');
+        $stmt->bindValue(':activo', $usuario['activo'], PDO::PARAM_BOOL);
+        $stmt->bindValue(':username', $usuario['username'], PDO::PARAM_STR);
+        $stmt->bindValue(':salarioBruto', $usuario['salarioBruto'], PDO::PARAM_STR);
+        $stmt->bindValue(':retencionIRPF', $usuario['retencionIRPF'], PDO::PARAM_STR);
+        $stmt->bindValue(':id_rol', $usuario['id_rol'], PDO::PARAM_INT);
+        $stmt->bindValue(':id_country', $usuario['id_country'], PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }
