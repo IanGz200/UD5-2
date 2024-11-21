@@ -106,8 +106,8 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
 
     public function getByUsername(string $username): array
     {
-        $statement = $this->pdo->prepare(self::SELECT_FROM . " WHERE us.username LIKE :username");
-        $statement->execute(['username' => "%$username%"]);
+        $statement = $this->pdo->prepare(self::SELECT_FROM . " WHERE us.username = :username");
+        $statement->execute(['username' => "$username"]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
