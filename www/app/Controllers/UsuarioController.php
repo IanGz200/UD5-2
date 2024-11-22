@@ -199,19 +199,15 @@ class UsuarioController extends BaseController
 
     public function showNewUsuario(array $input = [], array $errors = []): void
     {
-        $data = [
+        $data = $this->getCommonData();
+
+        $data += [
             'titulo' => 'Alta usuario',
             'breadcrumb' => ['Usuarios', 'Alta usuario']
         ];
 
         $data['input'] = $input;
         $data['errors'] = $errors;
-
-        $modelRoles = new AuxRolModel();
-        $data['roles'] = $modelRoles->getAll();
-
-        $countriesModel = new AuxCountriesModel();
-        $data['countries'] = $countriesModel->getAll();
 
         $this->view->showViews(
             array('templates/header.view.php', 'usuario.edit.view.php', 'templates/footer.view.php'),
@@ -244,18 +240,20 @@ class UsuarioController extends BaseController
         }
     }
 
-    private function checkForm(array $datos): array
+    private function checkForm(array $datos, string $oldUsername = ''): array
     {
         $errors = [];
-        if (empty($datos['username'])) {
-            $errors['username'] = 'El nombre de usuario es requerido';
-        }
-        if (!preg_match('/^\p{L}[\p{L}_\p{N}]{2,49}$/u', $datos['username'])) {
-            $errors['username'] = 'El username debe empezar por una letra y estar formado por letras, _ y números';
-        }
-        $model = new UsuarioModel();
-        if ($model->getByUsername($datos['username']) !== []) {
-            $errors['username'] = 'El nombre de usuario ya existe';
+        if ($oldUsername === '' || $oldUsername != $datos['username']) {
+            if (empty($datos['username'])) {
+                $errors['username'] = 'El nombre de usuario es requerido';
+            }
+            if (!preg_match('/^\p{L}[\p{L}_\p{N}]{2,49}$/u', $datos['username'])) {
+                $errors['username'] = 'El username debe empezar por una letra y estar formado por letras, _ y números';
+            }
+            $model = new UsuarioModel();
+            if (!is_null($model->getByUsername($datos['username']))) {
+                $errors['username'] = 'El nombre de usuario ya existe';
+            }
         }
         $floats2 = [
             'salarioBruto' => ['nombre' => 'Salario Bruto', 'min' => 600],
@@ -309,8 +307,67 @@ class UsuarioController extends BaseController
         return $errors;
     }
 
-    public function showEditUsuario(string $username)
+    public function showEditUsuario(string $username, array $input = [], array $errors = []): void
     {
-        echo $username;
+        $model = new UsuarioModel();
+        $usuario = $model->getByUsername($username);
+        if (is_null($usuario)) {
+            header('Location: /usuarios-filtro');
+        }
+        $data = $this->getCommonData();
+        $data += [
+            'titulo' => 'Edición de usuario',
+            'breadcrumb' => ['Usuarios', 'Edición de usuario']
+        ];
+
+        $data['input'] = ($input === []) ? $usuario : $input;
+
+        $data['errors'] = $errors;
+
+        $this->view->showViews(
+            array('templates/header.view.php', 'usuario.edit.view.php', 'templates/footer.view.php'),
+            $data
+        );
+    }
+
+    private function getCommonData(): array
+    {
+        $data = [];
+        $modelRoles = new AuxRolModel();
+        $data['roles'] = $modelRoles->getAll();
+
+        $countriesModel = new AuxCountriesModel();
+        $data['countries'] = $countriesModel->getAll();
+        return $data;
+    }
+
+    public function doEditUsuario(string $username)
+    {
+        $model = new UsuarioModel();
+        $usuario = $model->getByUsername($username);
+        if (is_null($usuario)) {
+            header('Location: /usuarios-filtro');
+        }
+        $errors = $this->checkForm($_POST, $username);
+        if ($errors === []) {
+            $insertData = $_POST;
+            $insertData['activo'] = isset($insertData['activo']) ? 1 : 0;
+            foreach ($insertData as $key => $value) {
+                if (empty($value)) {
+                    $insertData[$key] = null;
+                }
+            }
+            $model = new UsuarioModel();
+            if ($model->updateUsuario($insertData, $username)) {
+                header('Location: /usuarios-filtro');
+            } else {
+                $input = filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $errors['username'] = 'No se ha podido realizar el guardado';
+                $this->showEditUsuario($username, $input, $errors);
+            }
+        } else {
+            $input = filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $this->showEditUsuario($username, $input, $errors);
+        }
     }
 }

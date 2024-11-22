@@ -53,7 +53,7 @@ declare(strict_types=1);
                                echo $input['retencionIRPF'] ?? ''; ?>"
                                maxlength=""
                                placeholder="30"
-                               required/>
+                               />
                         <p class="text-danger small">
                             <?php
                             echo $errors['retencionIRPF'] ?? '';
@@ -98,7 +98,7 @@ declare(strict_types=1);
                                 class="form-check-input"
                                 id="activo"
                                 name="activo"
-                            <?php echo empty($input['activo']) ? 'checked' : ''; ?>
+                            <?php echo !empty($input['activo']) ? 'checked' : ''; ?>
                         />
                         <label class="form-check-label" for="activo">Usuario activo</label>
                     </div>

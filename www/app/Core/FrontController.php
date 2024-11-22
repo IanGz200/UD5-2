@@ -78,6 +78,14 @@ class FrontController
             },
             'get'
         );
+        Route::add(
+            '/usuarios/edit/(\p{L}[\p{L}_\p{N}]{2,49})',
+            function ($usuario) {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->doEditUsuario($usuario);
+            },
+            'post'
+        );
 
         Route::add(
             '/',

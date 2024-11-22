@@ -26,18 +26,18 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
 
     public function getUsuarioFiltros(array $filtros, int $order, int $page = 1, int $pageSize = -1): array
     {
-        if ($pageSize <= 0){
+        if ($pageSize <= 0) {
             $pageSize = (int)$_ENV['usuarios.rows_per_page'];
         }
         $sentidoOrder = ($order < 0) ? 'DESC' : 'ASC';
         $order = abs($order);
         $offset = self::getOffset($page, $pageSize);
         if (empty($filtros)) {
-            $stmt = $this->pdo->query(self::SELECT_FROM . ' ORDER BY '.self::ORDER_COLUMNS[$order - 1]. " $sentidoOrder LIMIT $offset, $pageSize") ;
+            $stmt = $this->pdo->query(self::SELECT_FROM . ' ORDER BY ' . self::ORDER_COLUMNS[$order - 1] . " $sentidoOrder LIMIT $offset, $pageSize") ;
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
             $condiciones = $this->getCondiciones($filtros);
-            $sql = self::SELECT_FROM . ' WHERE ' . implode(' AND ', $condiciones). ' ORDER BY '.self::ORDER_COLUMNS[$order - 1]. " $sentidoOrder LIMIT $offset, $pageSize";
+            $sql = self::SELECT_FROM . ' WHERE ' . implode(' AND ', $condiciones) . ' ORDER BY ' . self::ORDER_COLUMNS[$order - 1] . " $sentidoOrder LIMIT $offset, $pageSize";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($filtros);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -61,10 +61,10 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
 
     public static function getOffset(?int $page = 0, int $pageSize = -1): int
     {
-        if ($page <= 0){
+        if ($page <= 0) {
             $page = 1;
         }
-        if ($pageSize <= 0){
+        if ($pageSize <= 0) {
             $pageSize = $_ENV['usuarios.rows_per_page'];
         }
         return ($page - 1) * $pageSize;
@@ -104,11 +104,15 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         return $condiciones;
     }
 
-    public function getByUsername(string $username): array
+    public function getByUsername(string $username): ?array
     {
         $statement = $this->pdo->prepare(self::SELECT_FROM . " WHERE us.username = :username");
         $statement->execute(['username' => "$username"]);
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        if ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            return $row;
+        } else {
+            return null;
+        }
     }
 
     public function getByRol(int $idRol): array
@@ -206,5 +210,22 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         $stmt->bindValue(':id_country', $usuario['id_country'], PDO::PARAM_INT);
         return $stmt->execute();*/
         return $stmt->execute($usuario);
+    }
+
+    public function updateUsuario(array $usuario, string $oldUsername): bool
+    {
+        $sql = "UPDATE usuario SET username=:username, salarioBruto=:salarioBruto, retencionIRPF=:retencionIRPF, activo=:activo, id_rol=:id_rol, id_country=:id_country WHERE username=:oldUsername";
+        $stmt = $this->pdo->prepare($sql);
+        $usuario['oldUsername'] = $oldUsername;
+        return $stmt->execute($usuario);
+    }
+
+    public function deleteUsuario(string $username): bool
+    {
+        $sql = "DELETE FROM usuario WHERE username=:username";
+        $stmt = $this->pdo->prepare($sql);
+        $usuario['username'] = $username;
+        $executed = $stmt->execute($usuario);
+        return ($executed && $this->pdo->affectedRows() === 1);
     }
 }
