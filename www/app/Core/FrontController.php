@@ -86,6 +86,14 @@ class FrontController
             },
             'post'
         );
+        Route::add(
+            '/usuarios/delete/(\p{L}[\p{L}_\p{N}]{2,49})',
+            function ($usuario) {
+                $controlador = new \Com\Daw2\Controllers\UsuarioController();
+                $controlador->deleteUsuario($usuario);
+            },
+            'get'
+        );
 
         Route::add(
             '/',

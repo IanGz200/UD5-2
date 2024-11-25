@@ -226,6 +226,6 @@ class UsuarioModel extends \Com\Daw2\Core\BaseDbModel
         $stmt = $this->pdo->prepare($sql);
         $usuario['username'] = $username;
         $executed = $stmt->execute($usuario);
-        return ($executed && $this->pdo->affectedRows() === 1);
+        return ($executed && $stmt->rowCount() === 1);
     }
 }

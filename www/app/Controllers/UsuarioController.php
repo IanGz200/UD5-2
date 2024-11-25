@@ -147,8 +147,7 @@ class UsuarioController extends BaseController
                 $retencionIRPF = new Decimal($usuario['retencionIRPF']);
                 $neto = $salarioBruto - ($salarioBruto * $retencionIRPF / new Decimal('100', 2));
                 $usuario['salarioNeto'] = $neto->toFixed(2, true, Decimal::ROUND_HALF_UP);
-            }
-            else{
+            } else {
                 $usuario['salarioNeto'] = 0;
             }
         }
@@ -369,5 +368,14 @@ class UsuarioController extends BaseController
             $input = filter_var_array($_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $this->showEditUsuario($username, $input, $errors);
         }
+    }
+
+    public function deleteUsuario(string $username): bool
+    {
+        $model = new UsuarioModel();
+        if ($model->deleteUsuario($username)) {
+        } else {
+        }
+        header('Location: /usuarios-filtro');
     }
 }
