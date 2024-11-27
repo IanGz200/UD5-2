@@ -32,6 +32,12 @@ class View
                 $$key = $value;
             }
         }
+
+        if (isset($_SESSION['flashMessages']) && is_array($_SESSION['flashMessages'])) {
+            $flashMessages = $_SESSION['flashMessages'];
+            $_SESSION['flashMessages'] = [];
+        }
+
         //Necesario para saber en la vista qué controlador hemos cargado y así por ejemplo marcar en la barra izquierda la sección en la que estamos
         $controller = $this->controller;
         //Finalmente, incluimos la plantilla.

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Com\Daw2\Controllers;
 
 use Com\Daw2\Core\BaseController;
+use Com\Daw2\Libraries\Mensaje;
 use Com\Daw2\Models\AuxCountriesModel;
 use Com\Daw2\Models\AuxRolModel;
 use Com\Daw2\Models\UsuarioModel;
 use Decimal\Decimal;
+use http\Message;
 
 class UsuarioController extends BaseController
 {
@@ -21,6 +23,12 @@ class UsuarioController extends BaseController
             'titulo' => 'Listado usuarios',
             'breadcrumb' => ['Usuarios', 'Listado usuarios']
         ];
+
+        if (isset($_SESSION['flash']['message'])) {
+            $data['message'] = $_SESSION['flash']['message'];
+            $data['message_type'] = $_SESSION['flash']['message_type'] ?? 'info';
+            unset($_SESSION['flash']);
+        }
         $auxRolModel = new AuxRolModel();
         $data['roles'] = $auxRolModel->getAll();
 
@@ -370,12 +378,15 @@ class UsuarioController extends BaseController
         }
     }
 
-    public function deleteUsuario(string $username): bool
+    public function deleteUsuario(string $username): void
     {
         $model = new UsuarioModel();
         if ($model->deleteUsuario($username)) {
+            $mensaje = new Mensaje('Usuario eliminado correctamente', Mensaje::SUCCESS, 'Éxito');
         } else {
+            $mensaje = new Mensaje('No se ha podido eliminar el usuario', Mensaje::ERROR, 'Error');
         }
+        $this->addFlashMessage($mensaje);
         header('Location: /usuarios-filtro');
     }
 }

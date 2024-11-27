@@ -3,12 +3,14 @@
 namespace Com\Daw2\Core;
 
 use Com\Daw2\Controllers\EjerciciosController;
+use Com\Daw2\Controllers\PreferenciasController;
 use Steampixel\Route;
 
 class FrontController
 {
     public static function main()
     {
+        session_start();
         Route::add(
             '/usuarios-filtro',
             function () {
@@ -94,7 +96,23 @@ class FrontController
             },
             'get'
         );
+        Route::add(
+            '/preferencias',
+            function () {
+                $controlador = new PreferenciasController();
+                $controlador->showPreferencias();
+            },
+            'get'
+        );
 
+        Route::add(
+            '/preferencias',
+            function () {
+                $controlador = new PreferenciasController();
+                $controlador->doPreferencias();
+            },
+            'post'
+        );
         Route::add(
             '/',
             function () {
